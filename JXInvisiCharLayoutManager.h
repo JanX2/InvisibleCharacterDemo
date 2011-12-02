@@ -12,8 +12,6 @@
 @interface JXInvisiCharLayoutManager : NSLayoutManager {
 	NSColor *_invisibleCharacterColor;
 	
-	CFDictionaryRef _unicharMap;
-	
 	BOOL _showInvisibleCharacters;
 }
 

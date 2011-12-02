@@ -21,7 +21,37 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	{	'\r',		0x204B}, // carriage return	TO	reversed pilcrow sign
 };
 
+
+@interface JXInvisiCharLayoutManager (Private)
++ (CFDictionaryRef)unicharMap;
+@end
+
+
 @implementation JXInvisiCharLayoutManager
+
++ (CFDictionaryRef)unicharMap;
+{
+	static CFDictionaryRef unicharMap = nil;
+	
+	if (unicharMap == nil) {
+		CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
+		
+		CFMutableDictionaryRef mutableUnicharMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
+		
+		for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
+			CFDictionaryAddValue(mutableUnicharMap, 
+								 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible, 
+								 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
+		}
+		
+		//CFShow(mutableUnicharMap);
+		
+		unicharMap = CFDictionaryCreateCopy(kCFAllocatorDefault, mutableUnicharMap); // Create an immutable copy
+		CFRelease(mutableUnicharMap);
+	}
+	
+	return unicharMap;
+}
 
 - (id)init;
 {
@@ -31,22 +61,6 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		_invisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		
 		_showInvisibleCharacters = YES;
-		
-		// Prepare _unicharMap
-		CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
-		
-		CFMutableDictionaryRef unicharMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
-
-		for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
-			CFDictionaryAddValue(unicharMap, 
-								 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible, 
-								 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
-		}
-		
-		//CFShow(unicharMap);
-		
-		_unicharMap = CFDictionaryCreateCopy(kCFAllocatorDefault, unicharMap); // Create an immutable copy
-		CFRelease(unicharMap);
 	}
 	
 	return self;
@@ -54,8 +68,6 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 - (void)dealloc {
 	[_invisibleCharacterColor release];
-	
-	CFRelease(_unicharMap);
 	
 	[super dealloc];
 }
@@ -77,6 +89,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		NSString *stringToDraw;
 		NSMutableDictionary *currentAttributes = nil;
 		NSRange attributesEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
+		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
 		
 		for (NSUInteger index = glyphRange.location; index < lengthToRedraw; index++) {
 			// For characters consisting of several glyphs, the following will return the same index for consecutive iterations.
@@ -87,7 +100,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 			if (characterIndex != prevCharacterIndex) {
 				
 				// Map the character to its visible replacement
-				stringToDraw = (NSString *)CFDictionaryGetValue(_unicharMap, (const void *)(CFIndex)characterToCheck);
+				stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
 				
 				if (stringToDraw != nil) {
 					pointToDrawAt = [self locationForGlyphAtIndex:index];
