@@ -12,10 +12,7 @@
 @interface JXInvisiCharLayoutManager : NSLayoutManager {
 	NSColor *_invisibleCharacterColor;
 	
-	NSString *_spaceCharacter;
-	NSString *_tabCharacter;
-	NSString *_newLineCharacter;
-	NSString *_carriageReturnCharacter;
+	CFDictionaryRef _unicharMap;
 	
 	BOOL _showInvisibleCharacters;
 }

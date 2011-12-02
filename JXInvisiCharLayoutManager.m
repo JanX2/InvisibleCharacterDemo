@@ -8,6 +8,18 @@
 
 #import "JXInvisiCharLayoutManager.h"
 
+typedef struct _JXUnicharMappingStruct {
+	unichar invisible;
+	unichar replacement;
+} JXUnicharMappingStruct;
+
+JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
+	//	invisible	replacement
+	{	 ' ',		0x002E}, // ordinary space	TO	ordinary full stop; alternatives: one dot leader (0x2024), small full stop (0xFE52)
+	{	'\t',		0x21E5}, // tab				TO	rightwards arrow to bar; alternatives: rightwards arrow (0x2192), rightwards dashed arrow (0x21E2)
+	{	'\n',		0x00B6}, // new line		TO	pilcrow sign
+	{	'\r',		0x204B}, // carriage return	TO	reversed pilcrow sign
+};
 
 @implementation JXInvisiCharLayoutManager
 
@@ -18,16 +30,23 @@
 	if (self) {
 		_invisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		
-		unichar spaceUnichar = 0x002E; // ordinary full stop; alternatives: one dot leader (0x2024), small full stop (0xFE52)
-		_spaceCharacter = [[NSString alloc] initWithCharacters:&spaceUnichar length:1];
-		unichar tabUnichar = 0x21E5;
-		_tabCharacter = [[NSString alloc] initWithCharacters:&tabUnichar length:1];
-		unichar newLineUnichar = 0x00B6;
-		_newLineCharacter = [[NSString alloc] initWithCharacters:&newLineUnichar length:1];
-		unichar carriageReturnUnichar = 0x204B;
-		_carriageReturnCharacter = [[NSString alloc] initWithCharacters:&carriageReturnUnichar length:1];
-		
 		_showInvisibleCharacters = YES;
+		
+		// Prepare _unicharMap
+		CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
+		
+		CFMutableDictionaryRef unicharMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
+
+		for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
+			CFDictionaryAddValue(unicharMap, 
+								 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible, 
+								 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
+		}
+		
+		//CFShow(unicharMap);
+		
+		_unicharMap = CFDictionaryCreateCopy(kCFAllocatorDefault, unicharMap); // Create an immutable copy
+		CFRelease(unicharMap);
 	}
 	
 	return self;
@@ -36,8 +55,7 @@
 - (void)dealloc {
 	[_invisibleCharacterColor release];
 	
-	[_tabCharacter release];
-	[_newLineCharacter release];
+	CFRelease(_unicharMap);
 	
 	[super dealloc];
 }
@@ -69,23 +87,7 @@
 			if (characterIndex != prevCharacterIndex) {
 				
 				// Map the character to its visible replacement
-				switch (characterToCheck) {
-					case ' ':
-						stringToDraw = _spaceCharacter;
-						break;
-					case '\t':
-						stringToDraw = _tabCharacter;
-						break;
-					case '\n':
-						stringToDraw = _newLineCharacter;
-						break;
-					case '\r':
-						stringToDraw = _carriageReturnCharacter;
-						break;
-					default:
-						stringToDraw = nil;
-						break;
-				}
+				stringToDraw = (NSString *)CFDictionaryGetValue(_unicharMap, (const void *)(CFIndex)characterToCheck);
 				
 				if (stringToDraw != nil) {
 					pointToDrawAt = [self locationForGlyphAtIndex:index];
