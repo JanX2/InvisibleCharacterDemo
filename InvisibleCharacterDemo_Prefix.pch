@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'InvisibleCharacterDemo' target in the 'InvisibleCharacterDemo' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
