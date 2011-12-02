@@ -94,10 +94,10 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		for (NSUInteger index = glyphRange.location; index < lengthToRedraw; index++) {
 			// For characters consisting of several glyphs, the following will return the same index for consecutive iterations.
 			characterIndex = [self characterIndexForGlyphAtIndex:index]; 
-			characterToCheck = [completeString characterAtIndex:characterIndex];
 			
 			// Check if we have processed this character this already
 			if (characterIndex != prevCharacterIndex) {
+				characterToCheck = [completeString characterAtIndex:characterIndex];
 				
 				// Map the character to its visible replacement
 				stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
