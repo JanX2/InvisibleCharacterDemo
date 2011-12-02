@@ -16,9 +16,12 @@ typedef struct _JXUnicharMappingStruct {
 JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	//	invisible	replacement
 	{	 ' ',		0x002E}, // ordinary space	TO	ordinary full stop; alternatives: one dot leader (0x2024), small full stop (0xFE52)
+	{	0x0A,		0x2025}, // no-break space	TO	two dot leader
 	{	'\t',		0x21E5}, // tab				TO	rightwards arrow to bar; alternatives: rightwards arrow (0x2192), rightwards dashed arrow (0x21E2)
 	{	'\n',		0x00B6}, // new line		TO	pilcrow sign
 	{	'\r',		0x204B}, // carriage return	TO	reversed pilcrow sign
+	{	0x0C,		0x21DF}, // page break		TO	downwards arrow with double stroke; alternatives: next page (0x2398)
+	
 };
 
 
