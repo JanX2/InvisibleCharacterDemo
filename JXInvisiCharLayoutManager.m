@@ -130,7 +130,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 			// For characters consisting of several glyphs, the following will return the same index for consecutive iterations.
 			characterIndex = [self characterIndexForGlyphAtIndex:index]; 
 			
-			// Check if we have processed this character this already
+			// Check if we have processed this character already
 			if (characterIndex != prevCharacterIndex) {
 				characterToCheck = [completeString characterAtIndex:characterIndex];
 				
