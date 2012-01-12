@@ -104,6 +104,14 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	[super dealloc];
 }
 
+#if 0
+// Enabling this does indeed display invisible characters (line break type characters are not displayed).
+// The downside is, that the result is very ugly and not very easy for the user to visually parse.
+- (NSUInteger)layoutOptions
+{
+	return (NSShowControlGlyphs | NSShowInvisibleGlyphs);
+}
+#endif
 
 // Based on Peter Borg’s answer to “Invisible characters in NSTextView”
 // http://www.cocoabuilder.com/archive/cocoa/124811-invisible-characters-in-nstextview.html
