@@ -128,6 +128,12 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 				
 				// Map the character to its visible replacement
 				stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
+				if ((stringToDraw == nil) 
+					&& (characterToCheck < 0x0020 
+						|| (characterToCheck >= 0x007F && characterToCheck <= 0x009F))) {
+					// control character
+					stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)0xFFFF);
+				}
 				
 				if (stringToDraw != nil) {
 					pointToDrawAt = [self locationForGlyphAtIndex:index];
