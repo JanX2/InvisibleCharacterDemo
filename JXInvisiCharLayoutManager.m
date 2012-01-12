@@ -147,7 +147,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 					isIllegal = NO;
 				}
 
-				
+				// stringToDraw will be nil for glyphs we don’t want to change the appearance of (i.e. visible characters)
 				if (stringToDraw != nil) {
 					pointToDrawAt = [self locationForGlyphAtIndex:index];
 					glyphRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:NULL];
