@@ -8,6 +8,8 @@
 
 #import "JXInvisiCharLayoutManager.h"
 
+#import "JXNoBreaksTypesetter.h"
+
 typedef struct _JXUnicharMappingStruct {
 	unichar invisible;
 	unichar replacement;
@@ -85,6 +87,10 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	self = [super init];
 	
 	if (self) {
+		JXNoBreaksTypesetter *typeSetter = [[JXNoBreaksTypesetter alloc] init];
+		[self setTypesetter:typeSetter];
+		[typeSetter release];
+		
 		_illegalCharacterColor = [[NSColor redColor] retain];
 		_useIllegalColor = YES;
 		
