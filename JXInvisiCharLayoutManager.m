@@ -85,8 +85,11 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	self = [super init];
 	
 	if (self) {
-		_invisibleCharacterColor = [[NSColor lightGrayColor] retain];
+		_illegalCharacterColor = [[NSColor redColor] retain];
+		_useIllegalColor = YES;
 		
+		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
+		_invisibleCharacterAlpha = 0.333f;
 		_showInvisibleCharacters = YES;
 	}
 	
@@ -94,7 +97,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 }
 
 - (void)dealloc {
-	[_invisibleCharacterColor release];
+	[_illegalCharacterColor release];
+
+	[_defaultInvisibleCharacterColor release];
 	
 	[super dealloc];
 }
@@ -117,6 +122,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		NSMutableDictionary *currentAttributes = nil;
 		NSRange attributesEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
 		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
+		NSColor *currentCharacterColor;
+		NSColor *invisibleCharacterColor;
+		BOOL isIllegal = NO;
 		
 		for (NSUInteger index = glyphRange.location; index < lengthToRedraw; index++) {
 			// For characters consisting of several glyphs, the following will return the same index for consecutive iterations.
@@ -133,7 +141,12 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 						|| (characterToCheck >= 0x007F && characterToCheck <= 0x009F))) {
 					// control character
 					stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)0xFFFF);
+					isIllegal = YES;
 				}
+				else {
+					isIllegal = NO;
+				}
+
 				
 				if (stringToDraw != nil) {
 					pointToDrawAt = [self locationForGlyphAtIndex:index];
@@ -144,9 +157,24 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 					// Check if we need to generate attributes for this location
 					if ((currentAttributes == nil) 
 						|| !(NSLocationInRange(characterIndex, attributesEffectiveRange))) {
+						
 						[currentAttributes release];
 						currentAttributes = [[textStorage attributesAtIndex:characterIndex effectiveRange:&attributesEffectiveRange] mutableCopy];
-						[currentAttributes setObject:_invisibleCharacterColor forKey:NSForegroundColorAttributeName];
+						
+						if (isIllegal && _useIllegalColor) {
+							invisibleCharacterColor = _illegalCharacterColor;
+						}
+						else {
+							currentCharacterColor = [currentAttributes objectForKey:NSForegroundColorAttributeName];
+							if (currentCharacterColor == nil) {
+								invisibleCharacterColor = _defaultInvisibleCharacterColor;
+							}
+							else {
+								invisibleCharacterColor = [currentCharacterColor colorWithAlphaComponent:([currentCharacterColor alphaComponent] * _invisibleCharacterAlpha)];
+							}
+						}
+						
+						[currentAttributes setObject:invisibleCharacterColor forKey:NSForegroundColorAttributeName];
 					}
 					
 					[stringToDraw drawAtPoint:pointToDrawAt withAttributes:currentAttributes];

@@ -10,8 +10,11 @@
 
 
 @interface JXInvisiCharLayoutManager : NSLayoutManager {
-	NSColor *_invisibleCharacterColor;
+	NSColor *_illegalCharacterColor;
+	BOOL _useIllegalColor;
 	
+	NSColor *_defaultInvisibleCharacterColor;
+	CGFloat _invisibleCharacterAlpha;
 	BOOL _showInvisibleCharacters;
 }
 
