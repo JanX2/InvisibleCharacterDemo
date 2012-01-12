@@ -13,19 +13,37 @@ typedef struct _JXUnicharMappingStruct {
 	unichar replacement;
 } JXUnicharMappingStruct;
 
+// Partially based on http://en.wikipedia.org/wiki/Template:Whitespace_(Unicode)
 JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	//	invisible	replacement
-	{		 ' ',		0x002E}, // ordinary space				TO	ordinary full stop; alternatives: one dot leader (0x2024), small full stop (0xFE52)
+	{	  0x0020,		0x002E}, // ordinary space				TO	ordinary full stop; alternatives: one dot leader (0x2024), small full stop (0xFE52)
 	{	  0x00A0,		0x237D}, // no-break space				TO	shouldered open box
+	{	  0x202F,		0x237D}, // narrow no-break space		TO	shouldered open box
+	{	  0x180E,		0x002E}, // mongolian vowel separator	TO	ordinary full stop
+	{	  0x2000,		0x002E}, // en quad						TO	ordinary full stop
+	{	  0x2001,		0x002E}, // em quad						TO	ordinary full stop
+	{	  0x2002,		0x002E}, // en space					TO	ordinary full stop
+	{	  0x2003,		0x002E}, // em space					TO	ordinary full stop
+	{	  0x2004,		0x002E}, // three-per-em space			TO	ordinary full stop
+	{	  0x2005,		0x002E}, // four-per-em space			TO	ordinary full stop
+	{	  0x2006,		0x002E}, // six-per-em space			TO	ordinary full stop
+	{	  0x2007,		0x002E}, // figure space				TO	ordinary full stop
+	{	  0x2008,		0x002E}, // punctuation space			TO	ordinary full stop
+	{	  0x2009,		0x002E}, // thin space					TO	ordinary full stop
+	{	  0x200A,		0x002E}, // hair space					TO	ordinary full stop
+	{	  0x205F,		0x002E}, // medium mathematical space	TO	ordinary full stop
+	{	  0x3000,		0x002E}, // ideographic space			TO	ordinary full stop
 	
-	{		'\t',		0x21E5}, // tab							TO	rightwards arrow to bar; alternatives: rightwards arrow (0x2192), rightwards dashed arrow (0x21E2)
-	
-	{		'\n',		0x00B6}, // new line					TO	pilcrow sign
-	{		'\r',		0x204B}, // carriage return				TO	reversed pilcrow sign
+	{	  0x0009,		0x21E5}, // tab, HT, horizontal tab		TO	rightwards arrow to bar; alternatives: rightwards arrow (0x2192), rightwards dashed arrow (0x21E2)
+	{	  0x000B,		0x2193}, // vertical tab, VT			TO	downwards arrow
+
+	{	  0x000A,		0x00B6}, // new line, LF, line feed		TO	pilcrow sign
+	{	  0x000D,		0x204B}, // carriage return				TO	reversed pilcrow sign
 	{	  0x2028,		0x2761}, // unicode line separator		TO	curved stem paragraph sign ornament
 	{	  0x2029,		0x21AB}, // unicode paragraph separator	TO	leftwards arrow with loop
+	{	  0x0085,		0x00AC}, // next line, NEL				TO	angled dash
 	
-	{	  0x000C,		0x21DF}, // page break					TO	downwards arrow with double stroke; alternatives: next page (0x2398)
+	{	  0x000C,		0x21DF}, // page break, FF, form feed	TO	downwards arrow with double stroke; alternatives: next page (0x2398)
 	
 	{	  0xFFFF,		0xFFFD}, // invalid control				TO	replacement character
 };
