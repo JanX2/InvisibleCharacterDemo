@@ -12,9 +12,12 @@
 
 @interface InvisibleCharacterDemoAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
     NSWindow *_window;
-    JXInvisiCharTextView *_fieldEditor;
+    JXInvisiCharTextView *_textView;
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) IBOutlet JXInvisiCharTextView *textView;
+
+@property (nonatomic, assign) BOOL lineBreaksDisabled;
 
 @end

@@ -13,9 +13,28 @@
 @implementation InvisibleCharacterDemoAppDelegate
 
 @synthesize window = _window;
+@synthesize textView = _textView;
+
+- (void)dealloc
+{
+	self.textView = nil;
+
+	[super dealloc];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
+}
+
+
+- (BOOL)lineBreaksDisabled
+{
+    return [_textView lineBreaksDisabled];
+}
+
+- (void)setLineBreaksDisabled:(BOOL)value
+{
+	[_textView setLineBreaksDisabled:value];
 }
 
 @end
