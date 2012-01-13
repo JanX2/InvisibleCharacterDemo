@@ -16,6 +16,10 @@
 	NSColor *_defaultInvisibleCharacterColor;
 	CGFloat _invisibleCharacterAlpha;
 	BOOL _showInvisibleCharacters;
+	
+	BOOL _lineBreaksDisabled;
 }
+
+@property (nonatomic, assign) BOOL lineBreaksDisabled;
 
 @end

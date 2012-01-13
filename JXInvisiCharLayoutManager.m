@@ -87,16 +87,14 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	self = [super init];
 	
 	if (self) {
-		JXNoBreaksTypesetter *typeSetter = [[JXNoBreaksTypesetter alloc] init];
-		[self setTypesetter:typeSetter];
-		[typeSetter release];
-		
 		_illegalCharacterColor = [[NSColor redColor] retain];
 		_useIllegalColor = YES;
 		
 		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		_invisibleCharacterAlpha = 0.333f;
 		_showInvisibleCharacters = YES;
+		
+		self.lineBreaksDisabled = NO;
 	}
 	
 	return self;
@@ -202,6 +200,28 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	} 
 	
 	[super drawGlyphsForGlyphRange:glyphRange atPoint:containerOrigin];
+}
+
+
+- (BOOL)lineBreaksDisabled {
+    return _lineBreaksDisabled;
+}
+
+- (void)setLineBreaksDisabled:(BOOL)value {
+    if (_lineBreaksDisabled != value) {
+        _lineBreaksDisabled = value;
+		
+		NSATSTypesetter *typeSetter;
+		if (_lineBreaksDisabled) {
+			typeSetter = [[JXNoBreaksTypesetter alloc] init];
+		}
+		else {
+			typeSetter = [[NSATSTypesetter alloc] init];
+		}
+		
+		[self setTypesetter:typeSetter];
+		[typeSetter release];
+    }
 }
 
 @end
