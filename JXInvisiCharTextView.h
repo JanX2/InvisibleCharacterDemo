@@ -14,4 +14,6 @@
 	JXInvisiCharLayoutManager *_layoutManager;
 }
 
+@property (nonatomic, assign) BOOL lineBreaksDisabled;
+
 @end

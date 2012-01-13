@@ -41,4 +41,15 @@
 	[super dealloc];
 }
 
+
+- (BOOL)lineBreaksDisabled
+{
+    return [_layoutManager lineBreaksDisabled];
+}
+
+- (void)setLineBreaksDisabled:(BOOL)value
+{
+	[_layoutManager setLineBreaksDisabled:value];
+}
+
 @end
