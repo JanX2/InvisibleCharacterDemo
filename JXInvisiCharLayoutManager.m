@@ -124,31 +124,31 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 {
 	if (_showInvisibleCharacters) {
 		NSTextStorage *textStorage = [self textStorage];
-		NSPoint pointToDrawAt = NSZeroPoint;
-		NSRect glyphRect = NSZeroRect;
 		NSString *completeString = [[self textStorage] string];
 		NSUInteger lengthToRedraw = NSMaxRange(glyphRange);
-		NSUInteger characterIndex, prevCharacterIndex = NSUIntegerMax;
-		unichar characterToCheck;
-		NSString *stringToDraw;
+		NSUInteger prevCharacterIndex = NSUIntegerMax;
+		
 		NSMutableDictionary *currentAttributes = nil;
 		NSRange attributesEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
+		
 		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
+		
 		NSColor *currentCharacterColor;
 		NSColor *invisibleCharacterColor;
-		BOOL isIllegal = NO;
 		
 		for (NSUInteger index = glyphRange.location; index < lengthToRedraw; index++) {
 			// For characters consisting of several glyphs, the following will return the same index for consecutive iterations.
-			characterIndex = [self characterIndexForGlyphAtIndex:index]; 
+			NSUInteger characterIndex = [self characterIndexForGlyphAtIndex:index];
 			
 			// Check if we have processed this character already
 			if (characterIndex != prevCharacterIndex) {
-				characterToCheck = [completeString characterAtIndex:characterIndex];
+				BOOL isIllegal;
+				unichar characterToCheck = [completeString characterAtIndex:characterIndex];
 				
 				// Map the character to its visible replacement
-				stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
-				if ((stringToDraw == nil) 
+				NSString *stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
+
+				if ((stringToDraw == nil)
 					&& (characterToCheck < 0x0020 
 						|| (characterToCheck >= 0x007F && characterToCheck <= 0x009F))) {
 					// control character
@@ -161,11 +161,11 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 				// stringToDraw will be nil for glyphs we don’t want to change the appearance of (i.e. visible characters)
 				if (stringToDraw != nil) {
-					pointToDrawAt = [self locationForGlyphAtIndex:index];
-					glyphRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:NULL];
-					pointToDrawAt.x += glyphRect.origin.x;
-					pointToDrawAt.y = glyphRect.origin.y;
-					
+					NSPoint pointToDrawAt = [self locationForGlyphAtIndex:index];
+					NSRect lineRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:NULL];
+					pointToDrawAt.x += lineRect.origin.x;
+					pointToDrawAt.y = NSMinY(lineRect);
+
 					// Check if we need to generate attributes for this location
 					if ((currentAttributes == nil) 
 						|| !(NSLocationInRange(characterIndex, attributesEffectiveRange))) {
