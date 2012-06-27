@@ -187,6 +187,10 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 						}
 						
 						[currentAttributes setObject:invisibleCharacterColor forKey:NSForegroundColorAttributeName];
+						
+						[currentAttributes removeObjectForKey:NSUnderlineStyleAttributeName];
+						[currentAttributes removeObjectForKey:NSSuperscriptAttributeName];
+						[currentAttributes removeObjectForKey:NSBaselineOffsetAttributeName];
 					}
 					
 					[stringToDraw drawAtPoint:pointToDrawAt withAttributes:currentAttributes];
