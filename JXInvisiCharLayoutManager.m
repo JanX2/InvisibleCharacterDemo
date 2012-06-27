@@ -131,6 +131,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		NSMutableDictionary *currentAttributes = nil;
 		NSRange attributesEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
 		
+		NSRect lineRect = NSZeroRect;
+		NSRange glyphsEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
+		
 		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
 		
 		NSColor *currentCharacterColor;
@@ -161,8 +164,11 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 				// stringToDraw will be nil for glyphs we don’t want to change the appearance of (i.e. visible characters)
 				if (stringToDraw != nil) {
+					if (NSLocationInRange(index, glyphsEffectiveRange) == NO) {
+						lineRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:&glyphsEffectiveRange];
+					}
+					
 					NSPoint pointToDrawAt = [self locationForGlyphAtIndex:index];
-					NSRect lineRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:NULL];
 					pointToDrawAt.x += lineRect.origin.x;
 					pointToDrawAt.y = NSMinY(lineRect);
 
