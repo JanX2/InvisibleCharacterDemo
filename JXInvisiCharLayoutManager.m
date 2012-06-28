@@ -168,13 +168,12 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 					if (NSLocationInRange(index, glyphsEffectiveRange) == NO) {
 						lineRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:&glyphsEffectiveRange];
 						baselineOffset = [self.typesetter baselineOffsetInLayoutManager:self glyphIndex:index];
-						lineRect.size.height -= baselineOffset;
 					}
 					
 					// Calculate the origin point for the character (located in the bottom left, on the baseline, within the line rect).
 					NSPoint pointToDrawAt = [self locationForGlyphAtIndex:index];
 					pointToDrawAt.x += containerOrigin.x + lineRect.origin.x;
-					pointToDrawAt.y = containerOrigin.y + NSMaxY(lineRect);
+					pointToDrawAt.y = containerOrigin.y + NSMaxY(lineRect) - baselineOffset;
 
 					// Check if we need to generate attributes for this location
 					if ((currentAttributes == nil) 
