@@ -15,11 +15,13 @@
 {
 	unichar c = [self.attributedString.string characterAtIndex:charIndex];
 	switch (c) {
-		case 0x000A:
-		case 0x000D:
-		case 0x2028:
-		case 0x2029:
-		case 0x0085:
+		case 0x000A: // new line, LF, line feed
+		case 0x000B: // vertical tab, VT
+		case 0x000C: // page break, FF, form feed
+		case 0x000D: // carriage return
+		case 0x2028: // unicode line separator
+		case 0x2029: // unicode paragraph separator
+		case 0x0085: // next line, NEL
 			return NSTypesetterWhitespaceAction;
 			break;
 			
