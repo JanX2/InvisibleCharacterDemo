@@ -31,14 +31,17 @@
 	}
 }
 
-- (NSRect)boundingBoxForControlGlyphAtIndex:(NSUInteger)glyphIndex 
-						   forTextContainer:(NSTextContainer *)textContainer 
-					   proposedLineFragment:(NSRect)proposedRect 
-							  glyphPosition:(NSPoint)glyphPosition 
+- (NSRect)boundingBoxForControlGlyphAtIndex:(NSUInteger)glyphIndex
+						   forTextContainer:(NSTextContainer *)textContainer
+					   proposedLineFragment:(NSRect)proposedRect
+							  glyphPosition:(NSPoint)glyphPosition
 							 characterIndex:(NSUInteger)charIndex
 {
+	// We could try to determine the dimensions of the glyph we will place here,
+	// but we just reserve a square of space base on the height of the proposedRect. 
+	// A bit of a hack, but looks OK and is fast.
 	proposedRect.size.width = proposedRect.size.height;
-
+	
 	//NSLog(@"\nproposedRect: %@\nglyphPosition: %@", NSStringFromRect(proposedRect), NSStringFromPoint(glyphPosition));
 	return proposedRect;
 }
