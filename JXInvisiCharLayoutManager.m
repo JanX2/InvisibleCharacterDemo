@@ -132,6 +132,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		NSRange attributesEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
 		
 		NSRect lineRect = NSZeroRect;
+		CGFloat baselineOffset;
 		NSRange glyphsEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
 		
 		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
@@ -166,11 +167,14 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 				if (stringToDraw != nil) {
 					if (NSLocationInRange(index, glyphsEffectiveRange) == NO) {
 						lineRect = [self lineFragmentRectForGlyphAtIndex:index effectiveRange:&glyphsEffectiveRange];
+						baselineOffset = [self.typesetter baselineOffsetInLayoutManager:self glyphIndex:index];
+						lineRect.size.height -= baselineOffset;
 					}
 					
+					// Calculate the origin point for the character (located in the bottom left, on the baseline, within the line rect).
 					NSPoint pointToDrawAt = [self locationForGlyphAtIndex:index];
-					pointToDrawAt.x += lineRect.origin.x;
-					pointToDrawAt.y = NSMinY(lineRect);
+					pointToDrawAt.x += containerOrigin.x + lineRect.origin.x;
+					pointToDrawAt.y = containerOrigin.y + NSMaxY(lineRect);
 
 					// Check if we need to generate attributes for this location
 					if ((currentAttributes == nil) 
@@ -199,7 +203,14 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 						[currentAttributes removeObjectForKey:NSBaselineOffsetAttributeName];
 					}
 					
-					[stringToDraw drawAtPoint:pointToDrawAt withAttributes:currentAttributes];
+					NSSize stringSize = [stringToDraw sizeWithAttributes:currentAttributes];
+					
+					NSRect drawingRect = NSMakeRect(pointToDrawAt.x,
+													pointToDrawAt.y,
+													stringSize.width,
+													stringSize.height);
+					
+					[stringToDraw drawWithRect:drawingRect options:0 attributes:currentAttributes];
 				}
 			}
 			
