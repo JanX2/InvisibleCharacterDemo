@@ -13,7 +13,7 @@
 
 - (NSTypesetterControlCharacterAction)actionForControlCharacterAtIndex:(NSUInteger)charIndex
 {
-	unichar c = [[[self attributedString] string] characterAtIndex:charIndex];
+	unichar c = [self.attributedString.string characterAtIndex:charIndex];
 	switch (c) {
 		case 0x000A:
 		case 0x000D:
@@ -21,9 +21,11 @@
 		case 0x2029:
 		case 0x0085:
 			return NSTypesetterWhitespaceAction;
+			break;
 			
 		default:
 			return [super actionForControlCharacterAtIndex:charIndex];
+			break;
 	}
 }
 
@@ -34,7 +36,8 @@
 							 characterIndex:(NSUInteger)charIndex
 {
 	proposedRect.size.width = proposedRect.size.height;
-	//NSLog(@"proposedRect: %@", NSStringFromRect(proposedRect));
+
+	//NSLog(@"\nproposedRect: %@\nglyphPosition: %@", NSStringFromRect(proposedRect), NSStringFromPoint(glyphPosition));
 	return proposedRect;
 }
 
