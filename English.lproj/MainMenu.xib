@@ -1368,6 +1368,7 @@
 									<string key="NSFrame">{{17, 14}, {34, 25}}</string>
 									<reference key="NSSuperview"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="879875394">
 										<int key="NSCellFlags">67239424</int>
@@ -1611,6 +1612,7 @@
 											<string key="NSFrameSize">{465, 168}</string>
 											<reference key="NSSuperview" ref="340708698"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="281169951"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="1033458645">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -2014,6 +2016,7 @@ wGw</bytes>
 									<string key="NSFrame">{{508, 1}, {15, 531}}</string>
 									<reference key="NSSuperview" ref="408499066"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<reference key="NSTarget" ref="408499066"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.47794779477947796</double>
@@ -2024,6 +2027,7 @@ wGw</bytes>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="408499066"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="340708698"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="408499066"/>
 									<string key="NSAction">_doScroller:</string>
@@ -2034,7 +2038,7 @@ wGw</bytes>
 							<string key="NSFrame">{{-1, -1}, {524, 533}}</string>
 							<reference key="NSSuperview" ref="680338998"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="340708698"/>
+							<reference key="NSNextKeyView" ref="657830504"/>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="281169951"/>
 							<reference key="NSHScroller" ref="657830504"/>
@@ -2044,6 +2048,7 @@ wGw</bytes>
 					<string key="NSFrameSize">{522, 531}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="408499066"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{357, 499}</string>
@@ -4246,12 +4251,9 @@ wGw</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
-						<string key="NS.key.0">ToolTip</string>
-						<object class="IBToolTipAttribute" key="NS.object.0">
-							<string key="name">ToolTip</string>
-							<reference key="object" ref="141077608"/>
-							<string key="toolTip">Random playback</string>
-						</object>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<reference key="dict.sortedKeys" ref="0"/>
+						<reference key="dict.values" ref="0"/>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
