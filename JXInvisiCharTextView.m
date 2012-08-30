@@ -18,7 +18,7 @@
 	self = [super initWithFrame:frame];
     
     if (self) {
-		_layoutManager = [[JXInvisiCharLayoutManager allocWithZone:[self zone]] init];
+		_layoutManager = [[JXInvisiCharLayoutManager alloc] init];
 		[[self textContainer] replaceLayoutManager:_layoutManager];
 	}
     
@@ -30,7 +30,7 @@
 	NSTextContainer *textContainer = [self textContainer];
 	if (![[textContainer layoutManager] isKindOfClass:[JXInvisiCharLayoutManager class]]) {
 		[_layoutManager release];
-		_layoutManager = [[JXInvisiCharLayoutManager allocWithZone:[self zone]] init];
+		_layoutManager = [[JXInvisiCharLayoutManager alloc] init];
 		[textContainer replaceLayoutManager:_layoutManager];
 	}
 }
