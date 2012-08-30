@@ -34,6 +34,7 @@
 		[_layoutManager release];
 		_layoutManager = [[JXInvisiCharLayoutManager alloc] init];
 		[textContainer replaceLayoutManager:_layoutManager];
+		self.showsInvisibleCharacters = YES;
 	}
 }
 
@@ -41,6 +42,21 @@
 	[_layoutManager release];
 	
 	[super dealloc];
+}
+
+
+- (BOOL)showsInvisibleCharacters
+{
+    return [_layoutManager showsInvisibleCharacters];
+}
+
+- (void)setShowsInvisibleCharacters:(BOOL)value
+{
+    BOOL showsInvisibleCharacters = [_layoutManager showsInvisibleCharacters];
+	if (showsInvisibleCharacters != value) {
+		[_layoutManager setShowsInvisibleCharacters:value];
+		[self setNeedsDisplayInRect:[self visibleRect]];
+	}
 }
 
 

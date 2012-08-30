@@ -14,6 +14,8 @@
 	JXInvisiCharLayoutManager *_layoutManager;
 }
 
+@property (nonatomic, assign) BOOL showsInvisibleCharacters;
+
 @property (nonatomic, assign) BOOL lineBreaksDisabled;
 
 @property (nonatomic, readonly) JXInvisiCharLayoutManager *invisiCharLayoutManager;

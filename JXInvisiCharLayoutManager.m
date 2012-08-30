@@ -107,7 +107,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		
 		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		_invisibleCharacterAlpha = 0.333f;
-		_showsInvisibleCharacters = YES;
+		_showsInvisibleCharacters = NO;
 		
 		_lineBreaksDisabled = NO;
 		
