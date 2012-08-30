@@ -38,7 +38,7 @@
 							 characterIndex:(NSUInteger)charIndex
 {
 	// We could try to determine the dimensions of the glyph we will place here,
-	// but we just reserve a square of space base on the height of the proposedRect. 
+	// but we just reserve a square of space based on the height of the proposedRect. 
 	// A bit of a hack, but looks OK and is fast.
 	proposedRect.size.width = proposedRect.size.height;
 	
