@@ -102,16 +102,16 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	self = [super init];
 	
 	if (self) {
-		self.illegalCharacterColor = [NSColor redColor];
+		_illegalCharacterColor = [[NSColor redColor] retain];
 		_useIllegalColor = YES;
 		
-		self.defaultInvisibleCharacterColor = [NSColor lightGrayColor];
+		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		_invisibleCharacterAlpha = 0.333f;
 		_showInvisibleCharacters = YES;
 		
-		self.lineBreaksDisabled = NO;
+		_lineBreaksDisabled = NO;
 		
-		self.defaultTypeSetter = [self typesetter];
+		_defaultTypeSetter = [[self typesetter] retain];
 	}
 	
 	return self;
