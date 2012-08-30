@@ -26,15 +26,4 @@
 	// Insert code here to initialize your application 
 }
 
-
-- (BOOL)lineBreaksDisabled
-{
-    return [_textView lineBreaksDisabled];
-}
-
-- (void)setLineBreaksDisabled:(BOOL)value
-{
-	[_textView setLineBreaksDisabled:value];
-}
-
 @end

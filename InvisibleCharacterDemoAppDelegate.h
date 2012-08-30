@@ -18,6 +18,4 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet JXInvisiCharTextView *textView;
 
-@property (nonatomic, assign) BOOL lineBreaksDisabled;
-
 @end

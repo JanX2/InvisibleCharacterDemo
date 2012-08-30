@@ -1552,7 +1552,7 @@
 						<reference ref="96200353"/>
 						<reference ref="320601693"/>
 					</object>
-					<object class="NSArray" key="NSToolbarIBDefaultItems">
+					<object class="NSMutableArray" key="NSToolbarIBDefaultItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="460343285"/>
 						<reference ref="430817812"/>
@@ -1609,7 +1609,7 @@
 													<string>public.url</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{465, 168}</string>
+											<string key="NSFrameSize">{465, 1111}</string>
 											<reference key="NSSuperview" ref="340708698"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="281169951"/>
@@ -2017,6 +2017,7 @@ wGw</bytes>
 									<reference key="NSSuperview" ref="408499066"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView"/>
+									<bool key="NSEnabled">YES</bool>
 									<reference key="NSTarget" ref="408499066"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.47794779477947796</double>
@@ -2039,7 +2040,7 @@ wGw</bytes>
 							<reference key="NSSuperview" ref="680338998"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="657830504"/>
-							<int key="NSsFlags">133138</int>
+							<int key="NSsFlags">133202</int>
 							<reference key="NSVScroller" ref="281169951"/>
 							<reference key="NSHScroller" ref="657830504"/>
 							<reference key="NSContentView" ref="340708698"/>
@@ -2763,19 +2764,19 @@ wGw</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: lineBreaksDisabled</string>
+						<string key="label">value: textView.lineBreaksDisabled</string>
 						<reference key="source" ref="141077608"/>
 						<reference key="destination" ref="976324537"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="141077608"/>
 							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">value: lineBreaksDisabled</string>
+							<string key="NSLabel">value: textView.lineBreaksDisabled</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">lineBreaksDisabled</string>
+							<string key="NSKeyPath">textView.lineBreaksDisabled</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">578</int>
+					<int key="connectionID">585</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4284,7 +4285,7 @@ wGw</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">580</int>
+			<int key="maxID">585</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
