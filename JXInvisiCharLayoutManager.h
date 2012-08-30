@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class JXNoBreaksTypesetter;
 
 @interface JXInvisiCharLayoutManager : NSLayoutManager {
 	NSColor *_illegalCharacterColor;
@@ -18,6 +19,8 @@
 	BOOL _showInvisibleCharacters;
 	
 	BOOL _lineBreaksDisabled;
+	NSTypesetter *_defaultTypeSetter;
+	JXNoBreaksTypesetter *_noBreaksTypeSetter;
 }
 
 @property (nonatomic, readwrite, retain) NSColor *illegalCharacterColor;

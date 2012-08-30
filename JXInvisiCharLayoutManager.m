@@ -55,6 +55,11 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 + (CFDictionaryRef)unicharMap;
 @end
 
+@interface JXInvisiCharLayoutManager ()
+@property (nonatomic, readwrite, retain) NSTypesetter *defaultTypeSetter;
+@property (nonatomic, readwrite, retain) JXNoBreaksTypesetter *noBreaksTypeSetter;
+@end
+
 
 @implementation JXInvisiCharLayoutManager
 
@@ -64,6 +69,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 @synthesize defaultInvisibleCharacterColor = _defaultInvisibleCharacterColor;
 @synthesize invisibleCharacterAlpha = _invisibleCharacterAlpha;
 @synthesize showInvisibleCharacters = _showInvisibleCharacters;
+
+@synthesize defaultTypeSetter = _defaultTypeSetter;
+@synthesize noBreaksTypeSetter = _noBreaksTypeSetter;
 
 + (CFDictionaryRef)unicharMap;
 {
@@ -102,6 +110,8 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		_showInvisibleCharacters = YES;
 		
 		self.lineBreaksDisabled = NO;
+		
+		self.defaultTypeSetter = [self typesetter];
 	}
 	
 	return self;
@@ -112,6 +122,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 	self.defaultInvisibleCharacterColor = nil;
 	
+	self.defaultTypeSetter = nil;
+	self.noBreaksTypeSetter = nil;
+
 	[super dealloc];
 }
 
@@ -238,17 +251,26 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
     if (_lineBreaksDisabled != value) {
         _lineBreaksDisabled = value;
 		
-		NSATSTypesetter *typeSetter;
+		NSTypesetter *typeSetter;
 		if (_lineBreaksDisabled) {
-			typeSetter = [[JXNoBreaksTypesetter alloc] init];
+			typeSetter = self.noBreaksTypeSetter;
 		}
 		else {
-			typeSetter = [[NSATSTypesetter alloc] init];
+			typeSetter = self.defaultTypeSetter;
 		}
 		
 		[self setTypesetter:typeSetter];
-		[typeSetter release];
     }
+}
+
+
+- (JXNoBreaksTypesetter *)noBreaksTypeSetter
+{
+	if (_noBreaksTypeSetter == nil) {
+        _noBreaksTypeSetter = [[JXNoBreaksTypesetter alloc] init];
+    }
+	
+	return [[_noBreaksTypeSetter retain] autorelease];
 }
 
 @end
