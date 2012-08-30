@@ -16,4 +16,6 @@
 
 @property (nonatomic, assign) BOOL lineBreaksDisabled;
 
+@property (nonatomic, readonly) JXInvisiCharLayoutManager *invisiCharLayoutManager;
+
 @end

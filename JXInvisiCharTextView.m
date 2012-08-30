@@ -13,6 +13,8 @@
 
 @implementation JXInvisiCharTextView
 
+@synthesize invisiCharLayoutManager = _layoutManager;
+
 - (id)initWithFrame:(NSRect)frame
 {
 	self = [super initWithFrame:frame];
