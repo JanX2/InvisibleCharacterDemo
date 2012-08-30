@@ -16,7 +16,7 @@
 	
 	NSColor *_defaultInvisibleCharacterColor;
 	CGFloat _invisibleCharacterAlpha;
-	BOOL _showInvisibleCharacters;
+	BOOL _showsInvisibleCharacters;
 	
 	BOOL _lineBreaksDisabled;
 	NSTypesetter *_defaultTypeSetter;
@@ -28,7 +28,7 @@
 
 @property (nonatomic, readwrite, retain) NSColor *defaultInvisibleCharacterColor;
 @property (nonatomic, readwrite) CGFloat invisibleCharacterAlpha;
-@property (nonatomic, readwrite) BOOL showInvisibleCharacters;
+@property (nonatomic, readwrite) BOOL showsInvisibleCharacters;
 
 @property (nonatomic, assign) BOOL lineBreaksDisabled;
 

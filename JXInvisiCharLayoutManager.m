@@ -68,7 +68,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 @synthesize defaultInvisibleCharacterColor = _defaultInvisibleCharacterColor;
 @synthesize invisibleCharacterAlpha = _invisibleCharacterAlpha;
-@synthesize showInvisibleCharacters = _showInvisibleCharacters;
+@synthesize showsInvisibleCharacters = _showsInvisibleCharacters;
 
 @synthesize defaultTypeSetter = _defaultTypeSetter;
 @synthesize noBreaksTypeSetter = _noBreaksTypeSetter;
@@ -107,7 +107,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		
 		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
 		_invisibleCharacterAlpha = 0.333f;
-		_showInvisibleCharacters = YES;
+		_showsInvisibleCharacters = YES;
 		
 		_lineBreaksDisabled = NO;
 		
@@ -142,7 +142,7 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
-	if (_showInvisibleCharacters) {
+	if (_showsInvisibleCharacters) {
 		NSTextStorage *textStorage = [self textStorage];
 		NSString *completeString = [[self textStorage] string];
 		NSUInteger lengthToRedraw = NSMaxRange(glyphRange);
