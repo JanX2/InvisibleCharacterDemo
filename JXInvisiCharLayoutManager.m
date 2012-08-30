@@ -58,6 +58,13 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 
 @implementation JXInvisiCharLayoutManager
 
+@synthesize illegalCharacterColor = _illegalCharacterColor;
+@synthesize useIllegalColor = _useIllegalColor;
+
+@synthesize defaultInvisibleCharacterColor = _defaultInvisibleCharacterColor;
+@synthesize invisibleCharacterAlpha = _invisibleCharacterAlpha;
+@synthesize showInvisibleCharacters = _showInvisibleCharacters;
+
 + (CFDictionaryRef)unicharMap;
 {
 	static CFDictionaryRef unicharMap = nil;
@@ -87,10 +94,10 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 	self = [super init];
 	
 	if (self) {
-		_illegalCharacterColor = [[NSColor redColor] retain];
+		self.illegalCharacterColor = [NSColor redColor];
 		_useIllegalColor = YES;
 		
-		_defaultInvisibleCharacterColor = [[NSColor lightGrayColor] retain];
+		self.defaultInvisibleCharacterColor = [NSColor lightGrayColor];
 		_invisibleCharacterAlpha = 0.333f;
 		_showInvisibleCharacters = YES;
 		
@@ -101,9 +108,9 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 }
 
 - (void)dealloc {
-	[_illegalCharacterColor release];
+	self.illegalCharacterColor = nil;
 
-	[_defaultInvisibleCharacterColor release];
+	self.defaultInvisibleCharacterColor = nil;
 	
 	[super dealloc];
 }

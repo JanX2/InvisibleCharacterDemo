@@ -20,6 +20,13 @@
 	BOOL _lineBreaksDisabled;
 }
 
+@property (nonatomic, readwrite, retain) NSColor *illegalCharacterColor;
+@property (nonatomic, readwrite) BOOL useIllegalColor;
+
+@property (nonatomic, readwrite, retain) NSColor *defaultInvisibleCharacterColor;
+@property (nonatomic, readwrite) CGFloat invisibleCharacterAlpha;
+@property (nonatomic, readwrite) BOOL showInvisibleCharacters;
+
 @property (nonatomic, assign) BOOL lineBreaksDisabled;
 
 @end
