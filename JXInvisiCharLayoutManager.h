@@ -23,6 +23,8 @@
 	JXNoBreaksTypesetter *_noBreaksTypeSetter;
 }
 
++ (CFDictionaryRef)invisibleUnicharToVisibleStringMap;
+
 @property (nonatomic, readwrite, retain) NSColor *illegalCharacterColor;
 @property (nonatomic, readwrite) BOOL useIllegalColor;
 

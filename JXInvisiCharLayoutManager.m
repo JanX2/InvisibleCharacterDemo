@@ -51,10 +51,6 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 };
 
 
-@interface JXInvisiCharLayoutManager (Private)
-+ (CFDictionaryRef)unicharMap;
-@end
-
 @interface JXInvisiCharLayoutManager ()
 @property (nonatomic, readwrite, retain) NSTypesetter *defaultTypeSetter;
 @property (nonatomic, readwrite, retain) JXNoBreaksTypesetter *noBreaksTypeSetter;
@@ -73,28 +69,29 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 @synthesize defaultTypeSetter = _defaultTypeSetter;
 @synthesize noBreaksTypeSetter = _noBreaksTypeSetter;
 
-+ (CFDictionaryRef)unicharMap;
+static CFDictionaryRef _invisibleUnicharToVisibleStringMap = nil;
+
++ (void)initialize
 {
-	static CFDictionaryRef unicharMap = nil;
+	CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
 	
-	if (unicharMap == nil) {
-		CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
-		
-		CFMutableDictionaryRef mutableUnicharMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
-		
-		for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
-			CFDictionaryAddValue(mutableUnicharMap, 
-								 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible, 
-								 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
-		}
-		
-		//CFShow(mutableUnicharMap);
-		
-		unicharMap = CFDictionaryCreateCopy(kCFAllocatorDefault, mutableUnicharMap); // Create an immutable copy
-		CFRelease(mutableUnicharMap);
+	CFMutableDictionaryRef mutableUnicharToStringMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
+	
+	for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
+		CFDictionaryAddValue(mutableUnicharToStringMap,
+							 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible,
+							 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
 	}
 	
-	return unicharMap;
+	//CFShow(mutableUnicharMap);
+	
+	_invisibleUnicharToVisibleStringMap = CFDictionaryCreateCopy(kCFAllocatorDefault, mutableUnicharToStringMap); // Create an immutable copy
+	CFRelease(mutableUnicharToStringMap);
+}
+
++ (CFDictionaryRef)invisibleUnicharToVisibleStringMap;
+{
+	return _invisibleUnicharToVisibleStringMap;
 }
 
 - (id)init;
@@ -155,8 +152,6 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 		CGFloat baselineOffset;
 		NSRange glyphsEffectiveRange = NSMakeRange(NSUIntegerMax, 0);
 		
-		CFDictionaryRef unicharMap = [JXInvisiCharLayoutManager unicharMap];
-		
 		NSColor *currentCharacterColor;
 		NSColor *invisibleCharacterColor;
 		
@@ -170,13 +165,13 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 				unichar characterToCheck = [completeString characterAtIndex:characterIndex];
 				
 				// Map the character to its visible replacement
-				NSString *stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)(CFIndex)characterToCheck);
+				NSString *stringToDraw = (NSString *)CFDictionaryGetValue(_invisibleUnicharToVisibleStringMap, (const void *)(CFIndex)characterToCheck);
 
 				if ((stringToDraw == nil)
 					&& (characterToCheck < 0x0020 
 						|| (characterToCheck >= 0x007F && characterToCheck <= 0x009F))) {
 					// control character
-					stringToDraw = (NSString *)CFDictionaryGetValue(unicharMap, (const void *)0xFFFF);
+					stringToDraw = (NSString *)CFDictionaryGetValue(_invisibleUnicharToVisibleStringMap, (const void *)0xFFFF);
 					isIllegal = YES;
 				}
 				else {
