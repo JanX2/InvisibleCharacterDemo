@@ -3,7 +3,7 @@
 //  InvisibleCharacterDemo
 //
 //  Created by Jan on 02.12.11.
-//  Copyright 2011 geheimwerk.de. All rights reserved.
+//  Copyright (c) 2012-2013 Jan Weiß. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
