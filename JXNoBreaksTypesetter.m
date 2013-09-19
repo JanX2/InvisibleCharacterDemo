@@ -8,6 +8,7 @@
 
 #import "JXNoBreaksTypesetter.h"
 
+#import "JXInvisiCharLayoutManager.h"
 
 @implementation JXNoBreaksTypesetter
 
@@ -15,13 +16,7 @@
 {
 	unichar c = [self.attributedString.string characterAtIndex:charIndex];
 	switch (c) {
-		case 0x000A: // new line, LF, line feed
-		case 0x000B: // vertical tab, VT
-		case 0x000C: // page break, FF, form feed
-		case 0x000D: // carriage return
-		case 0x2028: // unicode line separator
-		case 0x2029: // unicode paragraph separator
-		case 0x0085: // next line, NEL
+		CASE_IS_LINE_BREAK:
 			return NSTypesetterWhitespaceAction;
 			break;
 			
@@ -37,11 +32,22 @@
 							  glyphPosition:(NSPoint)glyphPosition
 							 characterIndex:(NSUInteger)charIndex
 {
-	// We could try to determine the dimensions of the glyph we will place here,
-	// but we just reserve a square of space based on the height of the proposedRect. 
-	// A bit of a hack, but looks OK and is fast.
-	proposedRect.size.width = proposedRect.size.height;
-	
+	NSAttributedString *text = self.attributedString;
+	unichar c = [text.string characterAtIndex:charIndex];
+	switch (c) {
+		CASE_IS_LINE_BREAK:
+		{
+			// We could try to determine the dimensions of the glyph we will place here,
+			// but we just reserve a square of space based on the height of the proposedRect.
+			// A bit of a hack, but looks OK and is fast.
+			proposedRect.size.width = proposedRect.size.height;
+		}
+			break;
+			
+		default:
+			break;
+	}
+
 	//NSLog(@"\nproposedRect: %@\nglyphPosition: %@", NSStringFromRect(proposedRect), NSStringFromPoint(glyphPosition));
 	return proposedRect;
 }

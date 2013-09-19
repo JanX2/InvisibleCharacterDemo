@@ -10,6 +10,8 @@
 
 #import "JXNoBreaksTypesetter.h"
 
+CGFloat const kLineBreakCharacterOffsetPercent = 0.20;
+
 typedef struct _JXUnicharMappingStruct {
 	unichar invisible;
 	unichar replacement;
@@ -70,23 +72,38 @@ JXUnicharMappingStruct JXInvisiCharToCharMap[] = {
 @synthesize noBreaksTypeSetter = _noBreaksTypeSetter;
 
 static CFDictionaryRef _invisibleUnicharToVisibleStringMap = nil;
+static CFDictionaryRef _invisibleUnicharToVisibleUnicharMap = nil;
 
 + (void)initialize
 {
 	CFIndex charToInvisiCharMapCount = sizeof(JXInvisiCharToCharMap)/sizeof(JXUnicharMappingStruct);
 	
+	CFMutableDictionaryRef mutableUnicharToUnicharMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, NULL); // keys: unichar, values: unichar
 	CFMutableDictionaryRef mutableUnicharToStringMap = CFDictionaryCreateMutable(kCFAllocatorDefault, charToInvisiCharMapCount, NULL, &kCFTypeDictionaryValueCallBacks); // keys: unichar, values: NSString
 	
 	for (CFIndex i = 0; i < charToInvisiCharMapCount; i++) {
+		CFDictionaryAddValue(mutableUnicharToUnicharMap,
+							 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible,
+							 (const void *)(CFIndex)JXInvisiCharToCharMap[i].replacement);
+		
 		CFDictionaryAddValue(mutableUnicharToStringMap,
 							 (const void *)(CFIndex)JXInvisiCharToCharMap[i].invisible,
 							 (const void *)[NSString stringWithCharacters:&(JXInvisiCharToCharMap[i].replacement) length:1]);
+		
 	}
 	
 	//CFShow(mutableUnicharMap);
 	
+	_invisibleUnicharToVisibleUnicharMap = CFDictionaryCreateCopy(kCFAllocatorDefault, mutableUnicharToUnicharMap); // Create an immutable copy
+	CFRelease(mutableUnicharToUnicharMap);
+	
 	_invisibleUnicharToVisibleStringMap = CFDictionaryCreateCopy(kCFAllocatorDefault, mutableUnicharToStringMap); // Create an immutable copy
 	CFRelease(mutableUnicharToStringMap);
+}
+
++ (CFDictionaryRef)invisibleUnicharToVisibleUnicharMap;
+{
+	return _invisibleUnicharToVisibleUnicharMap;
 }
 
 + (CFDictionaryRef)invisibleUnicharToVisibleStringMap;
@@ -224,6 +241,15 @@ static CFDictionaryRef _invisibleUnicharToVisibleStringMap = nil;
 													stringSize.width,
 													stringSize.height);
 					
+					switch (characterToCheck) {
+						CASE_IS_LINE_BREAK:
+						{
+							CGFloat xOffset = drawingRect.size.width * kLineBreakCharacterOffsetPercent;
+							drawingRect.origin.x += xOffset;
+							break;
+						}
+					}
+
 					[stringToDraw drawWithRect:drawingRect options:0 attributes:currentAttributes];
 				}
 			}
