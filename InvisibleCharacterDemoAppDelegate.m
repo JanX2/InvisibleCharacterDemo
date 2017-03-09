@@ -3,7 +3,7 @@
 //  InvisibleCharacterDemo
 //
 //  Created by Jan on 02.12.11.
-//  Copyright (c) 2012-2013 Jan Weiß. All rights reserved.
+//  Copyright (c) 2012-2017 Jan Weiß. All rights reserved.
 //
 
 #import "InvisibleCharacterDemoAppDelegate.h"
