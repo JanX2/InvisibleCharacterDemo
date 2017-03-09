@@ -2,8 +2,9 @@
 //  JXNoBreaksTypesetter.m
 //  InvisibleCharacterDemo
 //
-//  Created by Jan on 12.01.12.
-//  Copyright 2012 geheimwerk.de. All rights reserved.
+//  Created by Jan Weiß on 12.01.12.
+//  Copyright 2012-2017 Jan Weiß, geheimwerk.de.
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 //
 
 #import "JXNoBreaksTypesetter.h"

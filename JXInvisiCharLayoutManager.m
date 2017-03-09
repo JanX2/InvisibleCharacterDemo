@@ -1,9 +1,10 @@
 //
-//	JXInvisiCharLayoutManager.m
-//	
+//  JXInvisiCharLayoutManager.m
+//  
 //
-//	Created by Jan on 02.12.11.
-//	Copyright 2011 geheimwerk.de. All rights reserved.
+//  Created by Jan Weiß on 02.12.11.
+//  Copyright 2011-2017 Jan Weiß, geheimwerk.de.
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 //
 
 #import "JXInvisiCharLayoutManager.h"

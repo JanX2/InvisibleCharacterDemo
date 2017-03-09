@@ -2,8 +2,9 @@
 //  InvisibleCharacterDemoAppDelegate.m
 //  InvisibleCharacterDemo
 //
-//  Created by Jan on 02.12.11.
-//  Copyright (c) 2012-2017 Jan Weiß. All rights reserved.
+//  Created by Jan Weiß on 02.12.11.
+//  Copyright 2012-2017 Jan Weiß, geheimwerk.de.
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 //
 
 #import "InvisibleCharacterDemoAppDelegate.h"
