@@ -44,7 +44,7 @@ extern CGFloat const kLineBreakCharacterOffsetPercent;
 
 @property (nonatomic, readwrite, retain) NSColor *defaultInvisibleCharacterColor;
 @property (nonatomic, readwrite) CGFloat invisibleCharacterAlpha;
-@property (nonatomic, readwrite) BOOL showsInvisibleCharacters;
+@property (atomic, readwrite) BOOL showsInvisibleCharacters;
 
 @property (nonatomic, assign) BOOL lineBreaksDisabled;
 
